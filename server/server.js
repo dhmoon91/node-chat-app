@@ -16,26 +16,37 @@ app.use( express.static(publicPath));
 //io.on -> special event
 io.on('connection', (socket) => {
   console.log('new User connected');
-/*
- socket.emit('newEmail', {
-   from: 'mike@example.com',
-   text: 'Hey. what is going on ',
-   createAt: 123
- });
-*/
 
- // socket.on('createEmail', (newEmail) => {
- //   console.log('createEmail', newEmail);
- // });
+ //socket.emit from: Admin, text: Welcome to the chat app
+ socket.emit('newMessage',{
+   from: 'Admin',
+   text: 'Welcome to chat app',
+   createdAt: new Date().getTime()
+ });
+ //socket.broadcast.emit from:Admin text: New user Joined.
+
+ socket.broadcast.emit('newMessage',  {
+    from: 'Admin',
+    text:'New User Joined',
+     createdAt: new Date().getTime()
+ });
 
  socket.on('createMessage',(message) => {
     console.log('createMessage', message);
     //emits event to every connection
+
     io.emit('newMessage', {
       from: message.from,
       text:message.text,
       createdAt: new Date().getTime()
     });
+
+    //send event to everyone else except this socket (myself)
+    // socket.broadcast.emit('newMessage', {
+    //   from:message.from,
+    //   text: message.text,
+    //   createdAt: new Date().getTime()
+    // });
  });
 
   socket.on ( 'disconnect', () =>{
