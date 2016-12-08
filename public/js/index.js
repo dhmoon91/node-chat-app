@@ -86,6 +86,7 @@ locationButton.on('click', function() {
   }
 
   locationButton.attr('disabled', 'disabled').text('Sending Location...');
+
   //2 arguments, 1) success function
   navigator.geolocation.getCurrentPosition( function (position) {
     locationButton.removeAttr('disabled').text('Send Location');
