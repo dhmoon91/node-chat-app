@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
     //emits event to every connection
     io.emit('newMessage', generateMessage(message.from, message.text ) );
     //Ack that message created
-    callback('This is from the server');
+    callback();
 
  });
 
